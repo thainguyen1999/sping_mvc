@@ -1,12 +1,16 @@
 package com.example.sping_mvc.controller;
 
 import com.example.sping_mvc.entity.Customer;
+import com.example.sping_mvc.repsitory.CustomerRepository;
 import com.example.sping_mvc.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -85,5 +89,17 @@ public class CustomerController {
         }
         return view;
     }
+    @PostMapping ("/findCustomerByName")
+    public String findCustomer(@RequestParam String name, ModelMap model){
+        String view="listCustomer";
+        try{
+            List<Customer> searchResults= customerService.findCustomerByName(name);
+            model.addAttribute("customer", searchResults);
+        }catch (Exception e){
+            System.err.println(e.getMessage());
+        }
+        return view;
+    }
+
 
 }

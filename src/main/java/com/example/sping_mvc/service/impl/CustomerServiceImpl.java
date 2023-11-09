@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -24,7 +26,17 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer findCustomerById(Long id) {
-        return null;
+        Customer customer=null;
+        try {
+            Optional<Customer> cust=customerRepository.findById(id);
+            if (cust.isPresent()){
+                customer=cust.get();
+            }
+
+        }catch (Exception e){
+            System.err.println(e.getMessage());
+        }
+        return customer;
     }
 
     @Override
@@ -53,5 +65,10 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public List<Customer> getAllCustomer() {
         return customerRepository.findAll();
+    }
+
+    @Override
+    public List<Customer> findCustomerByName(String name) {
+        return customerRepository.findCustomerByNameContainingIgnoreCase(name);
     }
 }
