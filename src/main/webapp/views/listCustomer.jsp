@@ -56,19 +56,61 @@
             margin-top: 20px;
         }
 
-        /*th, td {*/
-        /*    padding: 12px;*/
-        /*    text-align: left;*/
-        /*    border: 1px solid #ddd;*/
-        /*}*/
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
 
-        /*th {*/
-        /*    background-color: #007bff;*/
-        /*    color: #fff;*/
-        /*    cursor: pointer;*/
-        /*}*/
+        th {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .action-buttons a {
+            text-decoration: none;
+        }
+        .pagination {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .page-item {
+            margin-right: 10px;
+        }
+
+        .page-link {
+            padding: 10px;
+            border: 1px solid #007bff;
+            border-radius: 3px;
+            color: #007bff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .page-link.active {
+            background-color: #007bff;
+            color: #fff;
+        }
+
         .btn-create {
             background-color: #28a745;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .btn-secondary {
+            /*background-color: #dc3545;*/
             color: #fff;
             padding: 10px 20px;
             border-radius: 3px;
@@ -86,10 +128,9 @@
             <input type="text" id="name" name="name" class="search-input" placeholder="search..." required>
             <button type="submit" class="btn btn-primary"> <i class="fa-solid fa-magnifying-glass"></i></button>
         </form>
-        <a href="/customer/getAll" class="btn btn-secondary"><i class="fa-sharp fa-solid fa-backward fa-bounce"></i></a>
     </div>
     <div class="table-container">
-        <table border="1" class="table" style="width: 50%; margin-top: 10px">
+        <table border="1" class="table">
             <tr>
                 <th onclick="sortTable(0)">STT</th>
                 <th onclick="sortTable(1)">Name</th>
@@ -117,20 +158,32 @@
             </c:forEach>
         </table>
     </div>
-    <script>
-        function sortTable(columnIndex) {
-            // Your existing sorting logic here
-        }
-        function confirmDelete(customerId){
-            var isConfirmed = confirm("Are you sure you want to delete this customer?");
-            if (isConfirmed) {
-                window.location.href = "/customer/deleteCustomer/" + customerId;
-            }
-        }
-    </script>
-    <div>
-        <a href="/customer/getFormCreateCustomer" class="btn btn-create">Create New</a>
+    <div class="pagination">
+        <c:forEach begin="1" end="${totalPages}" var="pageNumber">
+            <li class="page-item">
+                <a href="/customer/getAll?page=${pageNumber}" class="page-link ${pageNumber == currentPage ? 'active' : ''}">
+                        ${pageNumber}
+                </a>
+            </li>
+        </c:forEach>
     </div>
+    <div class="action-buttons">
+        <a href="/customer/getFormCreateCustomer" class="btn btn-create"><i class="fa-solid fa-square-plus fa-bounce"></i></a>
+        <a href="/customer/getAll" class="btn btn-secondary"><i class="fa-sharp fa-solid fa-backward fa-bounce"></i></a>
+
+    </div>
+    <script>
+
+    function sortTable(columnIndex) {
+        // Your existing sorting logic here
+    }
+    function confirmDelete(customerId){
+        var isConfirmed = confirm("Are you sure you want to delete this customer?");
+        if (isConfirmed) {
+            window.location.href = "/customer/deleteCustomer/" + customerId;
+        }
+    }
+</script>
 </div>
 </body>
 </html>
